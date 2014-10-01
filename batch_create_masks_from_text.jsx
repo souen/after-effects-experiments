@@ -1,5 +1,14 @@
 {
-    app.beginUndoGroup("cette grosse connerie");
+
+    function unselectAllLayersInComp(comp) {
+        if (comp instanceof CompItem) {
+            for (j = 1; j <= comp.layers.length; j++) {
+                comp.layers[j].selected = false;
+            }
+        }
+    }
+
+    app.beginUndoGroup("create masks from text");
 
     var msg = '';
     var selected_text_layers = []
@@ -35,28 +44,17 @@
             for (i = 0; i < selected_text_layers.length; i++) {
                 var layer = selected_text_layers[i];
                 layer.selected = true;
-                if (confirm("yo ?")) {
-                    var createMasksCommand = app.findMenuCommandId("Créer des masques à partir du texte");
-                    alert(createMasksCommand);
-                    app.executeCommand(createMasksCommand);
-                }
+                var createMasksCommand = 2933; // result of app.findMenuCommandId("Créer des masques à partir du texte")
+                                               // but since it is localized, we use the id...
+                                               // FIXME: find a way to use localized labels ?
+                app.executeCommand(createMasksCommand);
                 unselectAllLayersInComp(layer.containingComp);
             }
         }
     } else {
         alert('Please select at least one text layer.');
     }
-
     
     app.endUndoGroup();
-    
-    function unselectAllLayersInComp(comp) {
-        if (comp instanceof CompItem) {
-            for (j = 1; j <= comp.layers.length; j++) {
-                comp.layers[j].selected = false;
-            }
-        }
-    }
-
 
 }
