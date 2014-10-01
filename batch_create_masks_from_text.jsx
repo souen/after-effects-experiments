@@ -48,6 +48,9 @@
                                                // but since it is localized, we use the id...
                                                // FIXME: find a way to use localized labels ?
                 app.executeCommand(createMasksCommand);
+                // The "create masks from text" command create a shape layer (containing the mask)
+                // and *select* it. So we have so deselect all layers to be sure
+                // the right click command is still available.
                 unselectAllLayersInComp(layer.containingComp);
             }
         }
