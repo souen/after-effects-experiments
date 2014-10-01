@@ -55,8 +55,8 @@
                                            // FIXME: find a way to use localized labels ?
             app.executeCommand(createMasksCommand);
             // The "create masks from text" command create a shape layer (containing the mask)
-            // and *select* it. So we have so deselect all layers to be sure
-            // the right click command is still available.
+            // and *select* it. So we have so deselect it to be sure
+            // the right-click command will still be available in the next loop.
             unselectAllLayersInComp(layer.containingComp);
         }
     } else {
