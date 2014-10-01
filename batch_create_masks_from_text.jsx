@@ -1,4 +1,17 @@
 {
+    /*
+     * Batch create masks from text
+     * (script for After Effects CS6)
+     * 
+     * In After Effects CS6, a right-click on a text layer
+     * gives access to the command "Create masks from text" in
+     * the contextual menu. Unfortunately, the command isn't available
+     * if *several* text layers are selected. This script is intended
+     * to fix that.
+     *
+     * Usage: select some text layers in a comp (it must be active) and apply script.
+     *
+     */
 
     function unselectAllLayersInComp(comp) {
         if (comp instanceof CompItem) {
@@ -14,19 +27,16 @@
     var selected_text_layers = []
     var project = app.project;
 
-    // Loop on every comp of the project and look for selected text layers
-    // NB: index in items collection is 1-indexed
-    for (i = 1; i <= project.items.length; i++) {
-        var item = project.items[i];
-        if (item instanceof CompItem) {  // Item is a composition
-            var selected_layers = item.selectedLayers;
-            if (selected_layers.length > 0) {
-                for (j = 0; j < selected_layers.length; j++) {
-                    var layer = selected_layers[j];
-                    if (layer instanceof TextLayer) {
-                        selected_text_layers.push(layer);
-                        msg += '- "' + layer.name + '" (from composition "' + layer.containingComp.name + '")\n';
-                    }
+    // Look for selected text layers in the current comp (if there is one)
+    if (project.activeItem instanceof CompItem) {  // activeItem is a composition
+        var comp = project.activeItem;
+        var selected_layers = comp.selectedLayers;
+        if (selected_layers.length > 0) {
+            for (j = 0; j < selected_layers.length; j++) {
+                var layer = selected_layers[j];
+                if (layer instanceof TextLayer) {
+                    selected_text_layers.push(layer);
+                    msg += '- "' + layer.name + '" (from composition "' + layer.containingComp.name + '")\n';
                 }
             }
         }
